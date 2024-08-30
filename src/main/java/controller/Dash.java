@@ -12,15 +12,14 @@ public class Dash {
 
     @FXML
     void btnOnActionAddCustomer(ActionEvent event) {
+
         Stage stage = new Stage();
         try {
             stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/add_customer_form.fxml"))));
-            stage.setResizable(false);
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
 
     }
 

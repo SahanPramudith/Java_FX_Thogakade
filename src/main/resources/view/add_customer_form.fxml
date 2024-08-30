@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane fx:id="cmdTitle" prefHeight="662.0" prefWidth="612.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddCustomerForm">
+<AnchorPane prefHeight="662.0" prefWidth="612.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddCustomerForm">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#192a56" height="87.0" stroke="#f2eaea" strokeType="INSIDE" width="612.0" />
       <Text fill="WHITE" layoutX="149.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Customer" wrappingWidth="301.1140594482422">
