@@ -39,6 +39,6 @@
             <TableColumn fx:id="colSalary" prefWidth="107.99996948242188" text="Salary" />
         </columns>
       </TableView>
-      <Button layoutX="229.0" layoutY="601.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="103.0" style="-fx-background-color: #e1b12c;" text="Reloard" textFill="#f2f2f2" />
+      <Button layoutX="229.0" layoutY="601.0" mnemonicParsing="false" onAction="#btnOnActionReloard" prefHeight="32.0" prefWidth="103.0" style="-fx-background-color: #e1b12c;" text="Reloard" textFill="#f2f2f2" />
    </children>
 </AnchorPane>

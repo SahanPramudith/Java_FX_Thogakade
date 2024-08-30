@@ -49,6 +49,10 @@ public class AddCustomerForm {
     @FXML
     void btnOnActionAdd(ActionEvent event) {
 
+
+
     }
 
+    public void btnOnActionReloard(ActionEvent actionEvent) {
+    }
 }
