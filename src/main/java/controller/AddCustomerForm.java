@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import model.Customer;
 
 import java.net.URL;
@@ -40,7 +41,7 @@ public class AddCustomerForm implements Initializable {
     private TableColumn<?, ?> colSalary;
 
     @FXML
-    private TableView<?> tblTable;
+    private TableView<Customer> tblTable;
 
     @FXML
     private JFXTextField txtAddress;
@@ -61,6 +62,12 @@ public class AddCustomerForm implements Initializable {
         title.add("Miss.");
 
         cmdTitle.setItems(title);
+
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colSalary.setCellValueFactory(new PropertyValueFactory<>("salary"));
+
     }
 
 
@@ -83,6 +90,13 @@ public class AddCustomerForm implements Initializable {
     }
 
     public void btnOnActionReloard(ActionEvent actionEvent) {
+
+        ObservableList<Customer> custlist = FXCollections.observableArrayList();
+
+        customerList.forEach(customer -> {
+            custlist.add(customer);
+        });
+        tblTable.setItems(custlist);
 
 
     }
