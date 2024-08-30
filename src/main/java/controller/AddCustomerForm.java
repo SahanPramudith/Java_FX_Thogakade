@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import model.Customer;
 
 import java.net.URL;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -92,6 +93,28 @@ public class AddCustomerForm implements Initializable {
     public void btnOnActionReloard(ActionEvent actionEvent) {
 
         ObservableList<Customer> custlist = FXCollections.observableArrayList();
+
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade", "root", "sahan");
+            PreparedStatement psTm = connection.prepareStatement("select * from customer");
+            ResultSet resultSet = psTm.executeQuery();
+
+            while (resultSet.next()){
+                Customer customer = new Customer(
+                        resultSet.getString("CustID"),
+                        resultSet.getString("CustName"),
+                        resultSet.getString("CustAddress"),
+                        resultSet.getDouble("salary"),
+                        resultSet.getString("CustTitle")
+                );
+                System.out.println("customer = " + customer);
+                custlist.add(customer);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
 
         customerList.forEach(customer -> {
             custlist.add(customer);
