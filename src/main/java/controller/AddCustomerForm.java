@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -36,19 +37,19 @@ public class AddCustomerForm implements Initializable {
     private JFXComboBox<String> cmdTitle;
 
     @FXML
-    private TableColumn<?, ?> colAddress;
+    private TableColumn colAddress;
 
     @FXML
-    private TableColumn<?, ?> colDob;
+    private TableColumn colDob;
 
     @FXML
-    private TableColumn<?, ?> colId;
+    private TableColumn colId;
 
     @FXML
-    private TableColumn<?, ?> colName;
+    private TableColumn colName;
 
     @FXML
-    private TableColumn<?, ?> colSalary;
+    private TableColumn colSalary;
 
     @FXML
     private TableView<Customer> tblTable;
@@ -86,7 +87,11 @@ public class AddCustomerForm implements Initializable {
         reload();
 
         tblTable.getSelectionModel().selectedItemProperty().addListener((observableValue, customer, newval) -> {
-            addvalueTOtext(newval);
+
+            if (newval!=null){
+                addvalueTOtext(newval);
+            }
+
         });
 
     }
@@ -105,25 +110,53 @@ public class AddCustomerForm implements Initializable {
     }
 
 
-    ArrayList<Customer> customerList = new ArrayList<>();
-    @FXML
-//    void btnOnActionAdd(ActionEvent event) {
-//        String id = txtId.getText();
-//        String name = txtName.getText();
-//        String address = txtAddress.getText();
-//        double salary = Double.parseDouble(txtSalary.getText());
-//        String title = cmdTitle.getValue();
-//        LocalDate dob = DateDiob.getValue();
-//
-//
-//        Customer customer = new Customer(id, name, address, salary, title,dob);
-//        customerList.add(customer);
-//        System.out.println("customer = " + customer);
-//
-//
-//
-//
-//    }
+  //  ArrayList<Customer> customerList = new ArrayList<>();
+  @FXML
+    void btnOnActionAdd(ActionEvent event) {
+        String id = txtId.getText();
+        String name = txtName.getText();
+        String address = txtAddress.getText();
+        double salary = Double.parseDouble(txtSalary.getText());
+        String title = cmdTitle.getValue();
+        LocalDate dob = DateDiob.getValue();
+        String city = txtSity.getText();
+        String province = txtProvince.getText();
+        String postcode = txtPostalcode.getText();
+
+      Customer customer = new Customer(id, name, address, salary, title,dob,city,province,postcode);
+
+      try {
+          String SQL="INSERT INTO Customer values(?,?,?,?,?,?,?,?,?)";
+          Connection connection = DbConnection.getInstance().getConnection();
+
+          PreparedStatement psTm = connection.prepareStatement(SQL);
+          psTm.setObject(1,customer.getId());
+          psTm.setObject(2,customer.getTitle());
+          psTm.setObject(3,customer.getName());
+          psTm.setObject(4,customer.getDob());
+          psTm.setObject(5,customer.getSalary());
+          psTm.setObject(6,customer.getAddress());
+          psTm.setObject(7,customer.getCity());
+          psTm.setObject(8,customer.getProvince());
+          psTm.setObject(9,customer.getPostcode());
+
+          boolean isadd = psTm.executeUpdate() > 0;
+         if (isadd){
+             new Alert(Alert.AlertType.CONFIRMATION,"customer add").show();
+             reload();
+         }
+      } catch (SQLException e) {
+          throw new RuntimeException(e);
+      }
+
+      // customerList.add(customer);
+        System.out.println("customer = " + customer);
+
+
+
+
+    }
+
 
     public void btnOnActionReloard(ActionEvent actionEvent) {
 
@@ -148,7 +181,7 @@ public class AddCustomerForm implements Initializable {
                         resultSet.getDate("Dob").toLocalDate(),
                         resultSet.getString("City"),
                         resultSet.getString("Province"),
-                        resultSet.getInt("PostalCode")
+                        resultSet.getString("PostalCode")
 
                 );
                 System.out.println("customer = " + customer);
@@ -160,15 +193,70 @@ public class AddCustomerForm implements Initializable {
         }
 
 
-        customerList.forEach(customer -> {
-            custlist.add(customer);
-        });
+//        customerList.forEach(customer -> {
+//            custlist.add(customer);
+//        });
         tblTable.setItems(custlist);
 
 
     }
 
 
-    public void btnOnActionAdd(ActionEvent actionEvent) {
+    public void btnOnActionDelete(ActionEvent actionEvent) {
+        try {
+            boolean isdelete = DbConnection.getInstance().getConnection().createStatement().executeUpdate("delete from customer where CustId='" + txtId.getText() + "'") > 0;
+            if (isdelete){
+                new Alert(Alert.AlertType.CONFIRMATION,"customer deleted ").show();
+                reload();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void btnOnActionUpdate(ActionEvent actionEvent) {
+
+        String id = txtId.getText();
+        String name = txtName.getText();
+        String address = txtAddress.getText();
+        double salary = Double.parseDouble(txtSalary.getText());
+        String title = cmdTitle.getValue();
+        LocalDate dob = DateDiob.getValue();
+        String city = txtSity.getText();
+        String province = txtProvince.getText();
+        String postcode = txtPostalcode.getText();
+
+        Customer customer = new Customer(id, name, address, salary, title,dob,city,province,postcode);
+
+
+        try {
+            String SQL="UPDATE Customer SET CustTitle=?,CustName=?,Dob=?,salary=?,CustAddress=?,City=?,Province=?,PostalCode=? WHERE CustID=?";
+            Connection connection = DbConnection.getInstance().getConnection();
+
+            PreparedStatement psTm = connection.prepareStatement(SQL);
+            psTm.setObject(1,customer.getTitle());
+            psTm.setObject(2,customer.getName());
+            psTm.setObject(3,customer.getDob());
+            psTm.setObject(4,customer.getSalary());
+            psTm.setObject(5,customer.getAddress());
+            psTm.setObject(6,customer.getCity());
+            psTm.setObject(7,customer.getProvince());
+            psTm.setObject(8,customer.getPostcode());
+            psTm.setObject(9,customer.getId());
+
+            boolean isupdated = psTm.executeUpdate() > 0;
+            if (isupdated){
+                new Alert(Alert.AlertType.CONFIRMATION,"customer Update !").show();
+                reload();
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void btnOnActionSearch(ActionEvent actionEvent) {
     }
 }

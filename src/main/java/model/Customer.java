@@ -19,5 +19,5 @@ public class Customer {
     private LocalDate dob;
     private String city;
     private String province;
-    private int postcode;
+    private String postcode;
 }

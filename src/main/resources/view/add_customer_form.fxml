@@ -11,7 +11,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane prefHeight="662.0" prefWidth="914.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddCustomerForm">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#192a56" height="87.0" stroke="#f2eaea" strokeType="INSIDE" width="914.0" />
@@ -27,9 +26,9 @@
       <JFXComboBox fx:id="cmdTitle" layoutX="343.0" layoutY="133.0" prefHeight="32.0" prefWidth="226.0" promptText="Title" />
       <DatePicker fx:id="DateDiob" layoutX="603.0" layoutY="179.0" prefHeight="32.0" prefWidth="226.0" promptText="Dob" />
       <Button layoutX="200.0" layoutY="307.0" mnemonicParsing="false" onAction="#btnOnActionAdd" prefHeight="32.0" prefWidth="103.0" style="-fx-background-color: #1e90ff;" text="Add " textFill="#eaeaea" />
-      <Button layoutX="313.0" layoutY="307.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="103.0" style="-fx-background-color: #44bd32;" text="Update" textFill="#f2f2f2" />
-      <Button layoutX="426.0" layoutY="307.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="103.0" style="-fx-background-color: #e84118;" text="Delete" textFill="#faf0f0" />
-      <Button layoutX="538.0" layoutY="307.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="103.0" style="-fx-background-color: #718093;" text="Search" textFill="#f2eeee" />
+      <Button layoutX="313.0" layoutY="307.0" mnemonicParsing="false" onAction="#btnOnActionUpdate" prefHeight="32.0" prefWidth="103.0" style="-fx-background-color: #44bd32;" text="Update" textFill="#f2f2f2" />
+      <Button layoutX="426.0" layoutY="307.0" mnemonicParsing="false" onAction="#btnOnActionDelete" prefHeight="32.0" prefWidth="103.0" style="-fx-background-color: #e84118;" text="Delete" textFill="#faf0f0" />
+      <Button layoutX="538.0" layoutY="307.0" mnemonicParsing="false" onAction="#btnOnActionSearch" prefHeight="32.0" prefWidth="103.0" style="-fx-background-color: #718093;" text="Search" textFill="#f2eeee" />
       <TableView fx:id="tblTable" layoutX="20.0" layoutY="383.0" prefHeight="204.0" prefWidth="883.0">
         <columns>
           <TableColumn fx:id="colId" prefWidth="75.0" text="CustID" />
