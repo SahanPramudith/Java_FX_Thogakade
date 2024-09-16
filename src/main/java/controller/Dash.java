@@ -25,7 +25,13 @@ public class Dash {
 
     @FXML
     void btnOnActionViewCustomer(ActionEvent event) {
-
+        Stage stage = new Stage();
+        try {
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/itemformcontroller.fxml"))));
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

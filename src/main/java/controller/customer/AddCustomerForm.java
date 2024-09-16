@@ -106,10 +106,6 @@ public class AddCustomerForm implements Initializable {
 
     }
 
-
-    //  ArrayList<Customer> customerList = new ArrayList<>();
-
-
     CustomerService service = new CustomerController();
 
     @FXML
@@ -136,7 +132,6 @@ public class AddCustomerForm implements Initializable {
         } else {
             new Alert(Alert.AlertType.ERROR).show();
         }
-
     }
 
 
@@ -149,15 +144,10 @@ public class AddCustomerForm implements Initializable {
 
         ObservableList<Customer> allCustomer = service.getAllCustomer();
 
-
-//        customerList.forEach(customer -> {
-//            custlist.add(customer);
-//        });
         tblTable.setItems(allCustomer);
 
 
     }
-
 
     public void btnOnActionDelete(ActionEvent actionEvent) {
         if (service.deleteCustomer(txtId.getText())) {
@@ -187,8 +177,6 @@ public class AddCustomerForm implements Initializable {
         } else {
             //new Alert(Alert.AlertType.ERROR).show();
         }
-
-
     }
 
     public void btnOnActionSearch(ActionEvent actionEvent) {

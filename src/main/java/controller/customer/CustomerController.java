@@ -110,6 +110,7 @@ public class CustomerController implements CustomerService {
     public boolean deleteCustomer(String id) {
 
         boolean isdelete;
+        String sql="delete from customer where CustId="+id;
         try {
             isdelete = DbConnection.getInstance().getConnection().createStatement().executeUpdate("delete from customer where CustId='" + id + "'") > 0;
 
