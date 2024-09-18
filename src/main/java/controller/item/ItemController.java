@@ -4,6 +4,7 @@ import db.DbConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Item;
+import util.CrudUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,24 +17,21 @@ public class ItemController implements ItemService {
         String sql = "insert into item values (?,?,?,?,?)";
         boolean isadd;
         try {
-            Connection connection = DbConnection.getInstance().getConnection();
-            PreparedStatement psTm = connection.prepareStatement(sql);
 
-            psTm.setObject(1, item.getItemcode());
-            psTm.setObject(2, item.getDescription());
-            psTm.setObject(3, item.getPacksize());
-            psTm.setObject(4, item.getUnitprice());
-            psTm.setObject(5, item.getQtyonhand());
-            isadd = psTm.executeUpdate() > 0;
+            Object execute = CrudUtil.execute(sql ,
+                    item.getItemcode(),
+                    item.getDescription(),
+                    item.getPacksize(),
+                    item.getUnitprice(),
+                    item.getQtyonhand()
+            );
+            System.out.println(execute);
+            return true;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        if (isadd) {
-            return true;
-        }
 
-        return false;
     }
 
     @Override
