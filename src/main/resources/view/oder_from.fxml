@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="629.0" prefWidth="688.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.oder.OderFromController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="62.0" stroke="BLACK" strokeType="INSIDE" width="688.0" />
+      <Label layoutX="199.0" layoutY="14.0" text="Place Oder From " textFill="#ffefef">
+         <font>
+            <Font size="38.0" />
+         </font>
+      </Label>
+
+      <Label layoutX="73.0" layoutY="558.0" text="Net Total : ">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cmdCustomerID" layoutX="40.0" layoutY="151.0" prefHeight="32.0" prefWidth="186.0" promptText="Customer Id " />
+      <ComboBox fx:id="cmditemCode" layoutX="40.0" layoutY="198.0" prefHeight="32.0" prefWidth="186.0" promptText="Item code " />
+      <JFXTextField fx:id="txtCustomerName" layoutX="266.0" layoutY="151.0" text="Custoemer Name" />
+      <JFXTextField fx:id="txtCustomerAddress" layoutX="455.0" layoutY="151.0" text="Customer Address" />
+      <JFXTextField fx:id="txtDescription" layoutX="266.0" layoutY="198.0" text="Descrption" />
+      <JFXTextField fx:id="txtStoke" layoutX="455.0" layoutY="198.0" text="Stoke" />
+      <Button layoutX="523.0" layoutY="254.0" mnemonicParsing="false" onAction="#btnAddCart" prefHeight="32.0" prefWidth="118.0" text="Add to Cart" />
+      <TableView fx:id="tblOder" layoutX="79.0" layoutY="331.0" prefHeight="200.0" prefWidth="530.0">
+        <columns>
+          <TableColumn fx:id="colItemCode" prefWidth="112.0" text="Item code " />
+          <TableColumn fx:id="colDescription" prefWidth="103.20001220703125" text="Description" />
+            <TableColumn fx:id="colQTY" prefWidth="103.20001220703125" text="QTY" />
+            <TableColumn fx:id="colUnitPrice" prefWidth="103.20001220703125" text="Unit Price" />
+            <TableColumn fx:id="colTotal" prefWidth="103.20001220703125" text="Total" />
+        </columns>
+      </TableView>
+      <Label fx:id="lblNetTotal" layoutX="175.0" layoutY="562.0" text="000">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="43.0" layoutY="96.0" text="Odet Id :">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblOdetId" layoutX="110.0" layoutY="96.0" text="000">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="226.0" layoutY="96.0" text="Odet Date :">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbldate" layoutX="308.0" layoutY="96.0" text="2024 / 9 /19">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="455.0" layoutY="96.0" text="Odet Time:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTime" layoutX="536.0" layoutY="96.0" text="000">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button layoutX="500.0" layoutY="559.0" mnemonicParsing="false" onAction="#btnAddCartOnAction" prefHeight="32.0" prefWidth="118.0" text="Place Oder" />
+   </children>
+</AnchorPane>
