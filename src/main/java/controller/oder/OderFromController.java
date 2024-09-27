@@ -2,6 +2,7 @@ package controller.oder;
 
 import com.jfoenix.controls.JFXTextField;
 import controller.customer.CustomerController;
+import controller.item.ItemController;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -22,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class OderFromController implements Initializable {
@@ -30,7 +32,7 @@ public class OderFromController implements Initializable {
     private ComboBox<String> cmdCustomerID;
 
     @FXML
-    private ComboBox<?> cmditemCode;
+    private ComboBox<String> cmditemCode;
 
     @FXML
     private TableColumn<?, ?> colDescription;
@@ -78,6 +80,7 @@ public class OderFromController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         AdddateAndTime();
         getCustomerId();
+        getItemCode();
 
         cmdCustomerID.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
             if (t1!=null){
@@ -128,9 +131,18 @@ public class OderFromController implements Initializable {
         allid.forEach(id->{
             observableList.add(id);
         });
-
         cmdCustomerID.setItems(observableList);
+    }
 
+    public void  getItemCode(){
+        List<String> itemCode = ItemController.getInstance().getItemCode();
+        ObservableList<String> observableList = FXCollections.observableArrayList();
+
+        itemCode.forEach(itemcode->{
+            observableList.add(itemcode);
+        });
+
+        cmditemCode.setItems(observableList);
     }
 
 

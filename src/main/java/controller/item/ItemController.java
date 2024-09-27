@@ -10,8 +10,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemController implements ItemService {
+
+    private static ItemController instance;
+    private  ItemController(){}
+
+    public static ItemController getInstance() {
+        return instance==null?instance=new ItemController():instance;
+    }
+
     @Override
     public boolean additem(Item item) {
         String sql = "insert into item values (?,?,?,?,?)";
@@ -94,17 +104,24 @@ public class ItemController implements ItemService {
                        resultSet.getString("PackSize"),
                        resultSet.getDouble("UnitPrice"),
                        resultSet.getInt("QtyOnHand")
-
-
                );
                items.add(item);
            }
-
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return items;
+    }
 
+@Override
+    public List<String> getItemCode(){
+        ObservableList<Item> getall = getall();
+        ArrayList<String> itemcode = new ArrayList<>();
+
+        getall.forEach(code->{
+            itemcode.add(code.getItemcode());
+        });
+
+        return itemcode;
     }
 }
