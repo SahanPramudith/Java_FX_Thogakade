@@ -106,7 +106,7 @@ public class AddCustomerForm implements Initializable {
 
     }
 
-    CustomerService service = new CustomerController();
+    CustomerService service =CustomerController.getInstance();
 
     @FXML
     void btnOnActionAdd(ActionEvent event) {

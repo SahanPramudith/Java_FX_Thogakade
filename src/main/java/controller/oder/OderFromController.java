@@ -1,9 +1,12 @@
 package controller.oder;
 
 import com.jfoenix.controls.JFXTextField;
+import controller.customer.CustomerController;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,17 +15,19 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.util.Duration;
+import model.Customer;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
 public class OderFromController implements Initializable {
 
     @FXML
-    private ComboBox<?> cmdCustomerID;
+    private ComboBox<String> cmdCustomerID;
 
     @FXML
     private ComboBox<?> cmditemCode;
@@ -72,6 +77,20 @@ public class OderFromController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         AdddateAndTime();
+        getCustomerId();
+
+        cmdCustomerID.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
+            if (t1!=null){
+                searchCustomer(t1);
+            }
+        });
+    }
+
+    private void searchCustomer(String id) {
+        Customer customer = CustomerController.getInstance().customerSearch(id);
+        txtCustomerName.setText(customer.getName());
+        txtCustomerAddress.setText(customer.getAddress());
+
     }
 
     @FXML
@@ -101,6 +120,17 @@ public class OderFromController implements Initializable {
 
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+    }
+
+    public void getCustomerId(){
+        ArrayList<String> allid = CustomerController.getInstance().getAllid();
+        ObservableList<String> observableList = FXCollections.observableArrayList();
+        allid.forEach(id->{
+            observableList.add(id);
+        });
+
+        cmdCustomerID.setItems(observableList);
+
     }
 
 

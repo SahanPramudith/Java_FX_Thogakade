@@ -3,6 +3,8 @@ package controller.customer;
 import javafx.collections.ObservableList;
 import model.Customer;
 
+import java.util.ArrayList;
+
 public interface CustomerService {
 
     boolean addCustomer(Customer customer);
@@ -15,4 +17,5 @@ public interface CustomerService {
 
     Customer customerSearch(String id);
 
+    ArrayList<String> getAllid();
 }

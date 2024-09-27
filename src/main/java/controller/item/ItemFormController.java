@@ -97,7 +97,6 @@ public class ItemFormController implements Initializable {
             new  Alert(Alert.AlertType.INFORMATION,"Delete Successes").show();
             reloard();
         }
-
     }
 
     @FXML
@@ -122,9 +121,6 @@ public class ItemFormController implements Initializable {
 
     public void btnOnActionReloard(ActionEvent actionEvent) {
        reloard();
-
-
-
     }
 
 

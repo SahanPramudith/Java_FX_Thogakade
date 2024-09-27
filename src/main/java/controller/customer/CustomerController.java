@@ -3,15 +3,25 @@ package controller.customer;
 import db.DbConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
 import model.Customer;
+import util.CrudUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class CustomerController implements CustomerService {
+    //===============INstence==========================================================
+   private static CustomerController instance ;
+   private CustomerController(){}
+
+   public static CustomerController getInstance(){
+       return instance==null?instance=new CustomerController():instance;
+   }
+//=======================================================================================
+
     @Override
     public boolean addCustomer(Customer customer) {
 
@@ -126,6 +136,40 @@ public class CustomerController implements CustomerService {
 
     @Override
     public Customer customerSearch(String id) {
+        try {
+            ResultSet resultSet = CrudUtil.execute("select * from customer where CustId=?", id);
+
+            while (resultSet.next()){
+              return   new Customer(
+                        resultSet.getString("CustID"),
+                        resultSet.getString("CustName"),
+                        resultSet.getString("CustAddress"),
+                        resultSet.getDouble("salary"),
+                        resultSet.getString("CustTitle"),
+                        resultSet.getDate("Dob").toLocalDate(),
+                        resultSet.getString("City"),
+                        resultSet.getString("Province"),
+                        resultSet.getString("PostalCode")
+                );
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return null;
     }
+
+    @Override
+    public ArrayList<String> getAllid() {
+
+        ArrayList<String> custid = new ArrayList<>();
+        ObservableList<Customer> allCustomer = getAllCustomer();
+
+        allCustomer.forEach(id->{
+            custid.add(id.getId());
+        });
+        return custid;
+
+    }
+
+
 }
