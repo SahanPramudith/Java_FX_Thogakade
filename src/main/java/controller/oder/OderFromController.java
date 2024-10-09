@@ -14,12 +14,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
-import model.Cart;
-import model.Customer;
-import model.Item;
+import model.*;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +29,9 @@ public class OderFromController implements Initializable {
 
     public JFXTextField txtQty;
     public JFXTextField txtPrice;
+    public JFXTextField txtcustid;
+    public JFXTextField txtOderid;
+    public JFXTextField txtOder;
     @FXML
     private ComboBox<String> cmdCustomerID;
 
@@ -55,16 +57,13 @@ public class OderFromController implements Initializable {
     private Label lblNetTotal;
 
     @FXML
-    private Label lblOdetId;
-
-    @FXML
     private Label lblTime;
 
     @FXML
     private Label lbldate;
 
     @FXML
-    private TableView<Object> tblOder;
+    private TableView<Cart> tblOder;
 
     @FXML
     private JFXTextField txtCustomerAddress;
@@ -112,7 +111,7 @@ public class OderFromController implements Initializable {
     }
 
 
-    ObservableList<Object> observableList = FXCollections.observableArrayList();
+    ObservableList<Cart> cartTm = FXCollections.observableArrayList();
     @FXML
     void btnAddCart(ActionEvent event) {
         colItemCode.setCellValueFactory(new PropertyValueFactory<>("itemcode"));
@@ -127,25 +126,19 @@ public class OderFromController implements Initializable {
         Double price = Double.parseDouble(txtPrice.getText()) ;
         Double total=qty*price;
 
-        observableList.add(new Cart(itemc,text,qty,price,total));
-
-        tblOder.setItems(observableList);
-
          Integer stoke =Integer.parseInt(txtQty.getText()) ;
-
-
 
         if ( stoke<qty) {
             new Alert(Alert.AlertType.ERROR).show();
+        }else {
+            cartTm.add(new Cart(itemc,text,qty,price,total));
+            tblOder.setItems(cartTm);
+            addNeTototal();
+
         }
 
-
     }
 
-    @FXML
-    void btnAddCartOnAction(ActionEvent event) {
-
-    }
 
     private void AdddateAndTime(){
         Date date = new Date();
@@ -185,5 +178,36 @@ public class OderFromController implements Initializable {
         cmditemCode.setItems(observableList);
     }
 
+    private void addNeTototal(){
+        Double nettotal=0.0;
 
+        for (Cart obj : cartTm) {
+            nettotal += obj.getTotal();
+        }
+        lblNetTotal.setText(String.valueOf(nettotal));
+    }
+
+
+    public void btnPlaceOderOnAction(ActionEvent actionEvent) {
+
+        String oderid = txtOder.getText();
+        LocalDate date=LocalDate.parse(lbldate.getText());
+        String custmerid = cmdCustomerID.getValue();
+        ArrayList<OderDetails> oderdetails = new ArrayList<>();
+
+        cartTm.forEach(obj->{
+            oderdetails.add(
+                    new OderDetails(
+                            oderid,
+                            obj.getItemcode(),
+                            obj.getQty(),
+                            0.0)
+            );
+
+        });
+
+        Oder oder = new Oder(oderid, date, custmerid, oderdetails);
+        System.out.println(oder);
+
+    }
 }
