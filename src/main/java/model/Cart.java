@@ -11,6 +11,10 @@ public class Cart {
 
     private String itemcode;
     private String descripton;
-    private int qty;
-    private double total;
+    private Integer qty;
+    private Double price;
+    private Double total;
+
+
+
 }

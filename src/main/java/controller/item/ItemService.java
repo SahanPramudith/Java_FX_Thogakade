@@ -11,5 +11,6 @@ public interface ItemService {
     boolean deleteitem(String id);
     ObservableList<Item> getall();
     List<String> getItemCode();
+    Item Serach(String code);
 
 }

@@ -21,7 +21,7 @@ public class ItemController implements ItemService {
     public static ItemController getInstance() {
         return instance==null?instance=new ItemController():instance;
     }
-
+//==================================================================================
     @Override
     public boolean additem(Item item) {
         String sql = "insert into item values (?,?,?,?,?)";
@@ -124,4 +124,25 @@ public class ItemController implements ItemService {
 
         return itemcode;
     }
+
+    @Override
+    public Item Serach(String code) {
+        try {
+            ResultSet resultSet = CrudUtil.execute("select * from item where ItemCode=?", code);
+            while (resultSet.next()){
+               return new Item(
+                        resultSet.getString("ItemCode"),
+                        resultSet.getString("Description"),
+                        resultSet.getString("PackSize"),
+                        resultSet.getDouble("UnitPrice"),
+                        resultSet.getInt("QtyOnHand")
+                );
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+
 }

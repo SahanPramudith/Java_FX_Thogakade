@@ -11,12 +11,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
+import model.Cart;
 import model.Customer;
+import model.Item;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -28,6 +28,8 @@ import java.util.ResourceBundle;
 
 public class OderFromController implements Initializable {
 
+    public JFXTextField txtQty;
+    public JFXTextField txtPrice;
     @FXML
     private ComboBox<String> cmdCustomerID;
 
@@ -62,7 +64,7 @@ public class OderFromController implements Initializable {
     private Label lbldate;
 
     @FXML
-    private TableView<?> tblOder;
+    private TableView<Object> tblOder;
 
     @FXML
     private JFXTextField txtCustomerAddress;
@@ -87,6 +89,19 @@ public class OderFromController implements Initializable {
                 searchCustomer(t1);
             }
         });
+
+        cmditemCode.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
+            if (t1!=null){
+                searchItemcode(t1);
+            }
+        });
+    }
+
+    private void searchItemcode(String itemcode) {
+        Item code = ItemController.getInstance().Serach(itemcode);
+        txtDescription.setText(code.getDescription());
+        txtStoke.setText(code.getPacksize());
+        txtPrice.setText(String.valueOf(code.getUnitprice()));
     }
 
     private void searchCustomer(String id) {
@@ -96,8 +111,34 @@ public class OderFromController implements Initializable {
 
     }
 
+
+    ObservableList<Object> observableList = FXCollections.observableArrayList();
     @FXML
     void btnAddCart(ActionEvent event) {
+        colItemCode.setCellValueFactory(new PropertyValueFactory<>("itemcode"));
+        colDescription.setCellValueFactory(new PropertyValueFactory<>("descripton"));
+        colQTY.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
+
+        String itemc = cmditemCode.getValue();
+        String text = txtDescription.getText();
+        Integer qty =Integer.parseInt(txtQty.getText());
+        Double price = Double.parseDouble(txtPrice.getText()) ;
+        Double total=qty*price;
+
+        observableList.add(new Cart(itemc,text,qty,price,total));
+
+        tblOder.setItems(observableList);
+
+         Integer stoke =Integer.parseInt(txtQty.getText()) ;
+
+
+
+        if ( stoke<qty) {
+            new Alert(Alert.AlertType.ERROR).show();
+        }
+
 
     }
 
@@ -115,7 +156,6 @@ public class OderFromController implements Initializable {
         Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, e->{
             LocalTime now = LocalTime.now();
             lblTime.setText(now.getHour()+":"+now.getMinute()+":"+now.getSecond());
-
         }),
                 new KeyFrame(Duration.seconds(1))
 
