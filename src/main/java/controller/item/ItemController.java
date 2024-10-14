@@ -4,6 +4,7 @@ import db.DbConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Item;
+import model.OderDetails;
 import util.CrudUtil;
 
 import java.sql.Connection;
@@ -144,5 +145,67 @@ public class ItemController implements ItemService {
         return null;
     }
 
+    @Override
+    public boolean updateStoke(List<OderDetails> oderDetailsList)  {
 
-}
+        //->--------------------- chatgpt----------------------------------------------
+
+            for (OderDetails oderDetail : oderDetailsList) {
+                // Retrieve the item code (e.g., 'P001') and the quantity to be updated
+                String itemCode = oderDetail.getItemcode(); // Ensure this is a valid string
+                int quantity = oderDetail.getQty(); // Ensure this is a valid integer
+
+                // Fetch the current stock for the item
+                //පරන item code
+                Item item = Serach(itemCode); // Assuming the method searches for an item by code
+
+                // Calculate the new stock by subtracting the ordered quantity from the current stock
+                int newQty = item.getQtyonhand() - quantity;
+
+                // Update the stock in the database
+                boolean isUpdated = false;
+                try {
+                    isUpdated = CrudUtil.execute(
+                            "UPDATE item SET qtyonhand=? WHERE itemcode=?",
+                            newQty, itemCode
+                    );
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+
+                if (!isUpdated) {
+                    return false; // If any stock update fails, return false
+                }
+            }
+            return true; // All stock updates successful
+        }
+
+    }
+
+
+
+
+    //-> ---------------------------My code----------------------------------
+
+//    public boolean updateStoke(List<OderDetails> oderdetailes) {
+//        for (OderDetails oderDetails:oderdetailes){
+//            boolean isUpdateStoke = updateStoke(oderDetails);
+//            if (!isUpdateStoke){
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
+//
+//    private boolean updateStoke(OderDetails oderDetails) {
+//       * String sql ="Update item set QtyOnHand=QtyOnHand- ? where ItemCode=?";
+//
+//        try {
+//           return CrudUtil.execute(sql,oderDetails.getItemcode(),oderDetails.getQty());
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
+
+

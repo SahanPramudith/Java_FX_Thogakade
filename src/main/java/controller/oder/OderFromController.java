@@ -17,6 +17,7 @@ import javafx.util.Duration;
 import model.*;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -188,7 +189,7 @@ public class OderFromController implements Initializable {
     }
 
 
-    public void btnPlaceOderOnAction(ActionEvent actionEvent) {
+    public void btnPlaceOderOnAction(ActionEvent actionEvent) throws ClassNotFoundException {
 
         String oderid = txtOder.getText();
         LocalDate date=LocalDate.parse(lbldate.getText());
@@ -198,15 +199,21 @@ public class OderFromController implements Initializable {
         cartTm.forEach(obj->{
             oderdetails.add(
                     new OderDetails(
-                            oderid,
+                            txtOder.getText(),
                             obj.getItemcode(),
                             obj.getQty(),
                             0.0)
             );
-
         });
+        System.out.println(oderid);
 
         Oder oder = new Oder(oderid, date, custmerid, oderdetails);
+        try {
+            new OderController().placeOder(oder);
+            System.out.println(oder);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         System.out.println(oder);
 
     }

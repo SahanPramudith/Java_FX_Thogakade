@@ -13,5 +13,5 @@ public class OderDetails {
     private String oderid;
     private String itemcode;
     private Integer qty;
-    private double descount;
+    private Double descount;
 }
